@@ -1,0 +1,13 @@
+{
+    "bert": {
+        "eval_loss": 0.1669640839099884,
+        "eval_accuracy": 0.7899159663865546,
+        "eval_precision": 0.8565403431636719,
+        "eval_recall": 0.7916242302847974,
+        "eval_macro_f1": 0.8211856829083487,
+        "eval_runtime": 144.6964,
+        "eval_samples_per_second": 5.757,
+        "eval_steps_per_second": 1.444,
+        "epoch": 1.0
+    }
+}

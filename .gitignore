@@ -1,3 +1,5 @@
+# Trained model checkpoints
+models/
 __pycache__/
 *.pyc
 
