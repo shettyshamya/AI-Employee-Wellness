@@ -1,0 +1,113 @@
+[
+  {
+    "case_id": "case_01",
+    "description": "High fear intensity",
+    "emotional_state": {
+      "dominant_emotion": "fear",
+      "detected_emotions": ["fear"],
+      "emotional_intensity": 90,
+      "negative_emotion_intensity": 90,
+      "polarity": "negative",
+      "severity": "high"
+    },
+    "preferred_categories": ["breathing", "mindfulness"],
+     "feedback_history": [
+    {
+      "recommendation_id": "breathing_01",
+      "viewed": true,
+      "accepted": true,
+      "rating": 5,
+      "preference_changes": {},
+      "timestamp": "2026-01-01T10:00:00"
+    },
+    {
+      "recommendation_id": "mindfulness_01",
+      "viewed": true,
+      "accepted": false,
+      "rating": 2,
+      "preference_changes": {},
+      "timestamp": "2026-01-01T10:05:00"
+    }
+  ],
+    "expected_relevant": [
+      "breathing_01",
+      "mindfulness_01",
+      "short_break_01"
+    ]
+  },
+  {
+    "case_id": "case_02",
+    "description": "High anger intensity",
+    "emotional_state": {
+      "dominant_emotion": "anger",
+      "detected_emotions": ["anger"],
+      "emotional_intensity": 90,
+      "negative_emotion_intensity": 90,
+      "polarity": "negative",
+      "severity": "high"
+    },
+    "preferred_categories": ["breathing", "short_break"],
+    "expected_relevant": [
+      "breathing_01",
+      "short_break_01",
+      "mindfulness_01"
+    ]
+  },
+  {
+    "case_id": "case_03",
+    "description": "High sadness intensity",
+    "emotional_state": {
+      "dominant_emotion": "sadness",
+      "detected_emotions": ["sadness"],
+      "emotional_intensity": 90,
+      "negative_emotion_intensity": 90,
+      "polarity": "negative",
+      "severity": "high"
+    },
+    "preferred_categories": ["breathing", "mindfulness"],
+    "expected_relevant": [
+      "breathing_01",
+      "mindfulness_01",
+      "reflection_01"
+    ]
+  },
+  {
+    "case_id": "case_04",
+    "description": "Positive joy state",
+    "emotional_state": {
+      "dominant_emotion": "joy",
+      "detected_emotions": ["joy"],
+      "emotional_intensity": 90,
+      "negative_emotion_intensity": 5,
+      "polarity": "positive",
+      "severity": "low"
+    },
+    "preferred_categories": ["positive_activity"],
+    "expected_relevant": [
+      "positive_activity_01"
+    ]
+  },
+  {
+    "case_id": "case_05",
+    "description": "Repeated fear pattern",
+    "emotional_state": {
+      "dominant_emotion": "fear",
+      "detected_emotions": ["fear"],
+      "emotional_intensity": 65,
+      "negative_emotion_intensity": 65,
+      "polarity": "negative",
+      "severity": "moderate"
+    },
+    "preferred_categories": ["breathing", "reflection"],
+    "historical_emotions": [
+      "fear",
+      "anger",
+      "fear"
+    ],
+    "expected_relevant": [
+      "breathing_01",
+      "reflection_01",
+      "short_break_01"
+    ]
+  }
+]

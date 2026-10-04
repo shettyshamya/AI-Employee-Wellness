@@ -1,0 +1,352 @@
+{
+  "evaluation_type": "controlled expert-defined recommendation benchmark",
+  "note": "expected_relevant lists are controlled benchmark labels, not observed employee acceptance data",
+  "feedback_note": "feedback_history is controlled benchmark input used to verify feedback-aware ranking",
+  "summary": {
+    "baseline": {
+      "precision_at_k": 0.7333333333333333,
+      "recall_at_k": 0.8666666666666666,
+      "f1_at_k": 0.7666666666666666,
+      "ndcg_at_k": 0.8938557452045514,
+      "diversity_at_k": 1.0,
+      "response_time_ms": 0.007239915430545807
+    },
+    "advanced": {
+      "precision_at_k": 0.7333333333333333,
+      "recall_at_k": 0.8666666666666666,
+      "f1_at_k": 0.7666666666666666,
+      "ndcg_at_k": 0.9061442547954487,
+      "diversity_at_k": 1.0,
+      "response_time_ms": 0.039559975266456604
+    },
+    "feedback": {
+      "cases_with_feedback": 1,
+      "average_acceptance_rate": 0.5,
+      "average_rating": 3.5
+    }
+  },
+  "cases": [
+    {
+      "case_id": "case_01",
+      "description": "High fear intensity",
+      "expected_relevant": [
+        "mindfulness_01",
+        "short_break_01",
+        "breathing_01"
+      ],
+      "feedback": {
+        "interaction_count": 2,
+        "acceptance_rate": 0.5,
+        "average_rating": 3.5
+      },
+      "baseline": {
+        "recommendations": [
+          "breathing_01",
+          "mindfulness_01",
+          "short_break_01"
+        ],
+        "precision_at_k": 1.0,
+        "recall_at_k": 1.0,
+        "f1_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.019499799236655235
+      },
+      "advanced": {
+        "recommendations": [
+          "breathing_01",
+          "mindfulness_01",
+          "short_break_01"
+        ],
+        "scores": [
+          100,
+          80,
+          70
+        ],
+        "reasons": [
+          [
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended",
+            "has a high acceptance rate",
+            "has a high user rating"
+          ],
+          [
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended",
+            "has a low acceptance rate",
+            "has a low user rating"
+          ],
+          [
+            "matches dominant emotion",
+            "matches emotional intensity",
+            "not previously recommended"
+          ]
+        ],
+        "precision_at_k": 1.0,
+        "recall_at_k": 1.0,
+        "f1_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.07099984213709831
+      }
+    },
+    {
+      "case_id": "case_02",
+      "description": "High anger intensity",
+      "expected_relevant": [
+        "mindfulness_01",
+        "short_break_01",
+        "breathing_01"
+      ],
+      "feedback": {
+        "interaction_count": 0,
+        "acceptance_rate": null,
+        "average_rating": 0.0
+      },
+      "baseline": {
+        "recommendations": [
+          "breathing_01",
+          "mindfulness_01",
+          "short_break_01"
+        ],
+        "precision_at_k": 1.0,
+        "recall_at_k": 1.0,
+        "f1_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.0032999087125062943
+      },
+      "advanced": {
+        "recommendations": [
+          "breathing_01",
+          "short_break_01",
+          "mindfulness_01"
+        ],
+        "scores": [
+          100,
+          100,
+          70
+        ],
+        "reasons": [
+          [
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended"
+          ],
+          [
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended"
+          ],
+          [
+            "matches dominant emotion",
+            "matches emotional intensity",
+            "not previously recommended"
+          ]
+        ],
+        "precision_at_k": 1.0,
+        "recall_at_k": 1.0,
+        "f1_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.021900050342082977
+      }
+    },
+    {
+      "case_id": "case_03",
+      "description": "High sadness intensity",
+      "expected_relevant": [
+        "mindfulness_01",
+        "reflection_01",
+        "breathing_01"
+      ],
+      "feedback": {
+        "interaction_count": 0,
+        "acceptance_rate": null,
+        "average_rating": 0.0
+      },
+      "baseline": {
+        "recommendations": [
+          "breathing_01",
+          "mindfulness_01",
+          "short_break_01"
+        ],
+        "precision_at_k": 0.6666666666666666,
+        "recall_at_k": 0.6666666666666666,
+        "f1_at_k": 0.6666666666666666,
+        "ndcg_at_k": 0.7653606369886217,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.0025997869670391083
+      },
+      "advanced": {
+        "recommendations": [
+          "breathing_01",
+          "mindfulness_01",
+          "short_break_01"
+        ],
+        "scores": [
+          100,
+          100,
+          70
+        ],
+        "reasons": [
+          [
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended"
+          ],
+          [
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended"
+          ],
+          [
+            "matches dominant emotion",
+            "matches emotional intensity",
+            "not previously recommended"
+          ]
+        ],
+        "precision_at_k": 0.6666666666666666,
+        "recall_at_k": 0.6666666666666666,
+        "f1_at_k": 0.6666666666666666,
+        "ndcg_at_k": 0.7653606369886217,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.04460010677576065
+      }
+    },
+    {
+      "case_id": "case_04",
+      "description": "Positive joy state",
+      "expected_relevant": [
+        "positive_activity_01"
+      ],
+      "feedback": {
+        "interaction_count": 0,
+        "acceptance_rate": null,
+        "average_rating": 0.0
+      },
+      "baseline": {
+        "recommendations": [
+          "positive_activity_01",
+          "breathing_01",
+          "mindfulness_01"
+        ],
+        "precision_at_k": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "f1_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.004600035026669502
+      },
+      "advanced": {
+        "recommendations": [
+          "positive_activity_01",
+          "breathing_01",
+          "mindfulness_01"
+        ],
+        "scores": [
+          100,
+          30,
+          30
+        ],
+        "reasons": [
+          [
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended"
+          ],
+          [
+            "matches emotional intensity",
+            "not previously recommended"
+          ],
+          [
+            "matches emotional intensity",
+            "not previously recommended"
+          ]
+        ],
+        "precision_at_k": 0.3333333333333333,
+        "recall_at_k": 1.0,
+        "f1_at_k": 0.5,
+        "ndcg_at_k": 1.0,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.038899946957826614
+      }
+    },
+    {
+      "case_id": "case_05",
+      "description": "Repeated fear pattern",
+      "expected_relevant": [
+        "reflection_01",
+        "short_break_01",
+        "breathing_01"
+      ],
+      "feedback": {
+        "interaction_count": 0,
+        "acceptance_rate": null,
+        "average_rating": 0.0
+      },
+      "baseline": {
+        "recommendations": [
+          "breathing_01",
+          "mindfulness_01",
+          "short_break_01"
+        ],
+        "precision_at_k": 0.6666666666666666,
+        "recall_at_k": 0.6666666666666666,
+        "f1_at_k": 0.6666666666666666,
+        "ndcg_at_k": 0.7039180890341347,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.006200047209858894
+      },
+      "advanced": {
+        "recommendations": [
+          "breathing_01",
+          "reflection_01",
+          "mindfulness_01"
+        ],
+        "scores": [
+          100,
+          100,
+          80
+        ],
+        "reasons": [
+          [
+            "matches a repeated recent emotional pattern",
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended"
+          ],
+          [
+            "matches a repeated recent emotional pattern",
+            "matches dominant emotion",
+            "matches user preference",
+            "matches emotional intensity",
+            "not previously recommended"
+          ],
+          [
+            "matches a repeated recent emotional pattern",
+            "matches dominant emotion",
+            "matches emotional intensity",
+            "not previously recommended"
+          ]
+        ],
+        "precision_at_k": 0.6666666666666666,
+        "recall_at_k": 0.6666666666666666,
+        "f1_at_k": 0.6666666666666666,
+        "ndcg_at_k": 0.7653606369886217,
+        "diversity_at_k": 1.0,
+        "response_time_ms": 0.021399930119514465
+      }
+    }
+  ]
+}

@@ -2,9 +2,9 @@
 
 ## 📌 Project Overview
 
-The **AI-Based Employee Wellness Management Platform** is an AI/ML-based system designed to analyze employee feedback and identify sentiment and emotional patterns from textual data.
+The **AI-Based Employee Wellness Management Platform** is an AI/ML-based system designed to analyze employee feedback, identify sentiment and emotional patterns, track wellness trends, and generate personalized wellness recommendations.
 
-The platform is intended to process employee inputs from multiple sources such as:
+The platform processes employee inputs from multiple sources such as:
 
 * 💬 Text/chat input
 * 📄 TXT files
@@ -12,9 +12,9 @@ The platform is intended to process employee inputs from multiple sources such a
 * 📕 PDF files
 * 📝 DOCX files
 
-The system processes the collected text, performs NLP preprocessing, and applies baseline sentiment analysis to identify whether employee feedback is **Positive, Negative, or Neutral**.
+The system combines NLP preprocessing, VADER sentiment analysis, transformer-based emotion analysis, emotional trend tracking, personalized recommendation ranking, recommendation feedback learning, and explainable recommendations.
 
-The project is being developed incrementally, with the first milestone focusing on reliable text ingestion, preprocessing, baseline sentiment analysis, reporting, and pipeline integration.
+The project is developed incrementally from a reliable baseline sentiment pipeline toward a complete personalized employee wellness workflow.
 
 ---
 
@@ -23,43 +23,67 @@ The project is being developed incrementally, with the first milestone focusing 
 * Collect employee feedback from multiple input formats.
 * Validate and clean incoming text data.
 * Perform NLP preprocessing.
-* Analyze employee feedback using sentiment analysis.
-* Generate sentiment scores and classifications.
-* Create reports that can be used for employee wellness analysis.
-* Build a foundation for future emotion classification and personalized wellness recommendations.
+* Analyze sentiment using VADER.
+* Detect employee emotions using ML/transformer-based models.
+* Calculate emotional intensity and severity.
+* Track emotional states over time.
+* Detect repeated emotional patterns.
+* Generate personalized wellness recommendations.
+* Use user preferences and historical behavior in recommendation ranking.
+* Learn from recommendation feedback.
+* Provide understandable explanations for recommendations.
+* Evaluate recommendation quality using controlled test cases.
+* Integrate the complete ML workflow into the existing wellness pipeline.
+* Maintain compatibility with the existing API and data-processing workflow.
 
 ---
 
-# 🏗️ Current System Architecture
+# 🏗️ Complete System Architecture
 
 ```text
-                EMPLOYEE FEEDBACK
-                       │
-        ┌──────────────┼──────────────┐
-        ↓              ↓              ↓
-      Chat            Files        CSV Data
-                       │
-              ┌────────┴────────┐
-              ↓                 ↓
-             TXT           PDF / DOCX
-              │                 │
-              └────────┬────────┘
-                       ↓
-                TEXT INGESTION
-                       ↓
-                INPUT VALIDATION
-                       ↓
-                 PREPROCESSING
-                       ↓
-              VADER SENTIMENT
-                       ↓
-          ┌────────────┼────────────┐
-          ↓            ↓            ↓
-       Positive      Neutral      Negative
-          │            │            │
-          └────────────┼────────────┘
-                       ↓
-                SENTIMENT REPORT
+                         EMPLOYEE INPUT
+                              │
+             ┌────────────────┼────────────────┐
+             ↓                ↓                ↓
+           Chat             Files            CSV
+                              │
+                    ┌─────────┴─────────┐
+                    ↓                   ↓
+                   TXT               PDF / DOCX
+                    │                   │
+                    └─────────┬─────────┘
+                              ↓
+                       TEXT INGESTION
+                              ↓
+                      INPUT VALIDATION
+                              ↓
+                       PREPROCESSING
+                              ↓
+                    SENTIMENT ANALYSIS
+                              ↓
+                  BERT / DistilBERT
+                              ↓
+                EMOTION + CONFIDENCE
+                              ↓
+                  EMOTION INTENSITY
+                              ↓
+                 EMOTIONAL HISTORY
+                              ↓
+                 TREND & PATTERN ANALYSIS
+                              ↓
+              PERSONALIZED RECOMMENDATION
+                              ↓
+                 HYBRID RANKING MODEL
+                              ↓
+              FEEDBACK + USER PREFERENCES
+                              ↓
+                EXPLAINABLE RECOMMENDATION
+                              ↓
+                 WELLNESS RECOMMENDATION
+                              ↓
+                    EXISTING API / DB
+                              ↓
+                       REPORTING
 ```
 
 ---
@@ -70,30 +94,34 @@ The project is being developed incrementally, with the first milestone focusing 
 AI-Employee-Wellness/
 │
 ├── data/
-│   └── raw/
-│       └── Dataset and sample input files
+│   ├── raw/
+│   └── processed/
+│       ├── recommendation_feedback.json
+│       └── recommendation_test_cases.json
 │
 ├── src/
+│   ├── emotion_analyzer.py
+│   ├── evaluate_distilbert.py
+│   ├── evaluate_recommendations.py
 │   ├── ingestion.py
+│   ├── personalized_recommender.py
+│   ├── prepare_go_emotions.py
 │   ├── preprocessing.py
+│   ├── recommendation_feedback.py
+│   ├── report.py
 │   ├── sentiment.py
-│   └── report.py
+│   ├── train_emotion_models.py
+│   ├── wellness_pipeline.py
+│   └── wellness_trend_analyzer.py
 │
 ├── models/
-│
 ├── reports/
+│   ├── TASK9_RECOMMENDATION_EVALUATION.md
+│   └── recommendation_evaluation.json
 │
 ├── notebooks/
 │
 ├── app.py
-│
-├── test_ingestion.py
-├── test_preprocessing.py
-├── test_sentiment.py
-├── test_report.py
-├── test_pipeline.py
-├── test_real_dataset.py
-│
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -139,41 +167,31 @@ The preprocessing module performs:
 * Empty-input handling
 * Negation preservation
 
-### Example
-
-**Original:**
+Example:
 
 ```text
+Original:
 I am feeling very stressed because of my workload!!!
-```
 
-**Processed:**
-
-```text
+Processed:
 feeling stressed workload
 ```
 
-Another example:
-
-**Original:**
+Negation is preserved:
 
 ```text
+Original:
 I am not happy with my workload.
-```
 
-**Processed:**
-
-```text
+Processed:
 not happy workload
 ```
 
-The preprocessing pipeline was also tested using long employee feedback, short text, repeated spaces, emojis, and special characters.
-
 ---
 
-# 📊 Task 3 — VADER Sentiment Validation
+## Task 3 — VADER Sentiment Validation
 
-VADER was selected as the baseline sentiment analysis method.
+VADER was selected as the baseline sentiment-analysis method.
 
 The system generates:
 
@@ -183,21 +201,11 @@ The system generates:
 * Compound score
 * Sentiment classification
 
-### Example Results
-
-| Input                                                              | Sentiment | Compound Score |
-| ------------------------------------------------------------------ | --------- | -------------: |
-| I really enjoy my work and feel happy with my team 😊              | Positive  |         0.9216 |
-| I am feeling very stressed because of my workload 😔               | Negative  |        -0.2247 |
-| I attended the employee meeting today.                             | Neutral   |         0.0000 |
-| I am extremely excited and happy about the new project! 🎉         | Positive  |         0.9253 |
-| I am extremely frustrated, exhausted and unhappy with my workload. | Negative  |        -0.8508 |
-
-The scores are generated dynamically by VADER and are not hardcoded.
+The scores are generated dynamically and are not hardcoded.
 
 ---
 
-# 📈 Task 4 — Initial Sentiment Report
+## Task 4 — Initial Sentiment Report
 
 The system generates a sentiment report containing:
 
@@ -210,9 +218,7 @@ The system generates a sentiment report containing:
 * Neutral score
 * Compound score
 
-The report is generated as a CSV file.
-
-Example output:
+Example:
 
 ```text
 reports/milestone1_sentiment_report.csv
@@ -220,9 +226,9 @@ reports/milestone1_sentiment_report.csv
 
 ---
 
-# 🧪 Task 5 — Complete Pipeline Integration
+## Task 5 — Complete Pipeline Integration
 
-The complete pipeline was tested to verify that information moves correctly between every module.
+The complete baseline pipeline was tested:
 
 ```text
 Input
@@ -238,73 +244,514 @@ Sentiment Result
 Report
 ```
 
-The integration test successfully confirmed that:
+Integration testing confirmed that input, processed, and sentiment record counts remain consistent.
+
+---
+
+# 🧠 Milestone 2 — Emotion Analysis & Personalized Wellness
+
+## Task 6 — Emotional Trend & User State Tracking
+
+The platform now maintains historical emotional information and uses it to identify changes in employee emotional state.
+
+Implemented capabilities include:
+
+* Emotion frequency tracking
+* Emotional intensity over time
+* Dominant emotion detection
+* Positive/negative trend tracking
+* Repeated emotional pattern detection
+* Recent emotional state
+* Emotional history
+* Personalized recommendations based on previous patterns
+
+The trend analyzer produces information such as:
 
 ```text
-Input records       = 5
-Processed records   = 5
-Sentiment records   = 5
+Total records: 5
+
+Emotion frequency:
+{
+    "fear": 2,
+    "anger": 1,
+    "joy": 1,
+    "sadness": 1
+}
+
+Average intensity: 89.51
+Average negative intensity: 70.91
+
+Polarity distribution:
+{
+    "negative": 4,
+    "positive": 1
+}
+
+Severity distribution:
+{
+    "high": 3,
+    "low": 1,
+    "moderate": 1
+}
 ```
 
-Result:
+### Historical Pattern Influence
+
+Repeated emotions can influence future recommendations.
+
+For example, if fear appears repeatedly in recent employee feedback, recommendations can receive an additional reason such as:
 
 ```text
-PASS: All modules processed the same number of records.
+matches a repeated recent emotional pattern
+```
+
+This verifies that recommendations are not based only on the current message.
+
+---
+
+# 🤖 Task 7 — Recommendation Feedback Learning
+
+A feedback mechanism was implemented to capture recommendation interactions.
+
+The system supports:
+
+* Recommendation viewed
+* Recommendation accepted
+* Recommendation rejected
+* User rating
+* User preference changes
+* Recommendation interaction history
+
+Feedback is stored in:
+
+```text
+data/processed/recommendation_feedback.json
+```
+
+Example:
+
+```json
+{
+    "recommendation_id": "breathing_01",
+    "viewed": true,
+    "accepted": true,
+    "rating": 5,
+    "preference_changes": {},
+    "timestamp": "2026-01-01T10:00:00"
+}
+```
+
+The feedback system calculates:
+
+* Acceptance rate
+* Average user rating
+* Total interactions
+
+Example:
+
+```text
+breathing_01
+Acceptance rate: 1.0
+Average rating: 5.0
+
+mindfulness_01
+Acceptance rate: 0.0
+Average rating: 2.0
+```
+
+These feedback statistics are incorporated into recommendation scoring.
+
+A recommendation with strong historical acceptance and rating can receive a higher ranking score, while recommendations with poor feedback can receive a lower score.
+
+---
+
+# 💡 Task 8 — Recommendation Explainability
+
+Every personalized recommendation includes dynamically generated reasons explaining why it was selected.
+
+Examples include:
+
+```text
+matches dominant emotion
+matches user preference
+matches emotional intensity
+matches a repeated recent emotional pattern
+not previously recommended
+recommended once before
+recommended multiple times
+has a high acceptance rate
+has a high user rating
+has a low acceptance rate
+has a low user rating
+```
+
+Example recommendation:
+
+```text
+2-Minute Breathing Exercise
+
+Score: 100
+
+Reasons:
+- matches dominant emotion
+- matches user preference
+- matches emotional intensity
+- not previously recommended
+- has a high acceptance rate
+- has a high user rating
+```
+
+This provides transparency into the recommendation ranking rather than returning unexplained recommendations.
+
+---
+
+# 📊 Task 9 — Advanced Recommendation Evaluation
+
+The recommendation system was evaluated using a controlled test dataset containing five emotional scenarios:
+
+```text
+case_01 — High fear intensity
+case_02 — High anger intensity
+case_03 — High sadness intensity
+case_04 — Positive joy state
+case_05 — Repeated fear pattern
+```
+
+Test cases are stored in:
+
+```text
+data/processed/recommendation_test_cases.json
+```
+
+The evaluation compares:
+
+```text
+Baseline Recommendation
+        VS
+Advanced Personalized Recommendation
+```
+
+The baseline uses dominant-emotion matching and fixed recommendation ordering.
+
+The advanced system uses:
+
+* Emotion
+* Emotional intensity
+* User preferences
+* Recommendation history
+* Emotional history
+* Repeated patterns
+* Feedback signals
+* Acceptance rate
+* User ratings
+* Dynamic scoring
+
+---
+
+## Evaluation Metrics
+
+The system evaluates:
+
+* Precision@3
+* Recall@3
+* F1-score@3
+* NDCG@3
+* Recommendation diversity
+* Response time
+* Acceptance rate
+* Average user rating
+
+---
+
+## Latest Evaluation Results
+
+```text
+Baseline Precision@3: 0.733
+Advanced Precision@3: 0.733
+
+Baseline Recall@3: 0.867
+Advanced Recall@3: 0.867
+
+Baseline F1@3: 0.767
+Advanced F1@3: 0.767
+
+Baseline NDCG@3: 0.894
+Advanced NDCG@3: 0.906
+
+Baseline diversity: 1.000
+Advanced diversity: 1.000
+
+Baseline response time: approximately 0.003 ms
+Advanced response time: approximately 0.026 ms
+
+Average acceptance rate: 0.500
+Average user rating: 3.500
+```
+
+### Interpretation
+
+The advanced recommender currently matches the baseline on Precision, Recall, and F1.
+
+However, the advanced system improves ranking quality:
+
+```text
+NDCG:
+Baseline = 0.894
+Advanced = 0.906
+```
+
+The improvement demonstrates that personalization and historical signals can improve recommendation ordering even when the top-3 relevance counts remain unchanged.
+
+The evaluation also confirms that feedback information is being incorporated successfully:
+
+```text
+Average acceptance rate = 0.500
+Average user rating     = 3.500
+```
+
+Generated reports:
+
+```text
+reports/TASK9_RECOMMENDATION_EVALUATION.md
+reports/recommendation_evaluation.json
 ```
 
 ---
 
-# 🗃️ Real Dataset Validation
+# 🔄 Task 10 — Complete ML Integration & Project Cleanup
 
-After validating the system using sample employee feedback, the complete pipeline was tested using a **10,000-record workplace stress dataset**.
+The complete wellness workflow has been integrated and tested.
 
-### Dataset columns
+## Complete Flow
 
 ```text
-Employee_ID
-Message
-Word_Count
-Sentiment_Score
-Employee_Role
-Department
-Stress_Level
+Text Input
+    ↓
+Preprocessing
+    ↓
+Sentiment Analysis
+    ↓
+BERT / DistilBERT Emotion Analysis
+    ↓
+Emotion + Confidence
+    ↓
+Emotion Intensity
+    ↓
+User Emotional History
+    ↓
+Trend Detection
+    ↓
+Feedback History
+    ↓
+Personalized Recommendation Model
+    ↓
+Recommendation Ranking
+    ↓
+Explainable Wellness Recommendation
 ```
 
-For Milestone 1, the `Message` column was used as the actual employee text input.
+The integrated pipeline is implemented in:
 
-The existing `Sentiment_Score` and `Stress_Level` fields were not used to generate the VADER sentiment results.
+```text
+src/wellness_pipeline.py
+```
+
+Supporting modules include:
+
+```text
+src/emotion_analyzer.py
+src/personalized_recommender.py
+src/recommendation_feedback.py
+src/wellness_trend_analyzer.py
+```
 
 ---
 
-## Real Dataset Results
+## Task 10 Verification
 
-```text
-Total records:       10,000
-Empty messages:           0
-Valid text records:  10,000
-Processed records:  10,000
-Sentiment records:  10,000
+The following areas were tested during integration:
+
+| Requirement                     | Status |
+| ------------------------------- | ------ |
+| Existing ingestion pipeline     | ✅      |
+| Existing preprocessing pipeline | ✅      |
+| Existing sentiment analysis     | ✅      |
+| Dynamic emotion predictions     | ✅      |
+| Emotional intensity             | ✅      |
+| Emotional history               | ✅      |
+| Trend analysis                  | ✅      |
+| Personalized recommendations    | ✅      |
+| Dynamic recommendation ranking  | ✅      |
+| Historical pattern influence    | ✅      |
+| Recommendation explanations     | ✅      |
+| Feedback storage                | ✅      |
+| Acceptance-rate learning        | ✅      |
+| User-rating learning            | ✅      |
+| Recommendation evaluation       | ✅      |
+| Python module compilation       | ✅      |
+| End-to-end wellness pipeline    | ✅      |
+
+Python source compilation was verified using:
+
+```bash
+python -m compileall src
 ```
 
-### VADER Sentiment Distribution
+The compilation completed successfully.
 
-| Sentiment |    Records | Percentage |
-| --------- | ---------: | ---------: |
-| Positive  |      5,451 |     54.51% |
-| Neutral   |      3,270 |     32.70% |
-| Negative  |      1,279 |     12.79% |
-| **Total** | **10,000** |   **100%** |
+---
 
-The complete real-dataset pipeline completed successfully.
+# 🧪 Recommendation System Example
+
+Example employee message:
 
 ```text
-PASS: Complete real-dataset pipeline executed successfully.
+I am extremely worried about my deadlines.
 ```
 
-Generated report:
+Emotional analysis:
 
 ```text
-reports/milestone1_real_dataset_report.csv
+Dominant emotion: fear
+Intensity: 100.0
+Negative intensity: 100.0
+Polarity: negative
+Severity: high
+```
+
+Personalized recommendations:
+
+```text
+1. 2-Minute Breathing Exercise
+   Score: 100
+
+   Reasons:
+   - matches dominant emotion
+   - matches user preference
+   - matches emotional intensity
+   - not previously recommended
+   - has a high acceptance rate
+   - has a high user rating
+
+2. Take a Short Break
+   Score: 100
+
+   Reasons:
+   - matches dominant emotion
+   - matches user preference
+   - matches emotional intensity
+   - not previously recommended
+
+3. Short Mindfulness Exercise
+   Score: 80
+
+   Reasons:
+   - matches dominant emotion
+   - matches user preference
+   - matches emotional intensity
+   - not previously recommended
+   - has a low acceptance rate
+   - has a low user rating
+```
+
+A later repeated fear state can additionally produce:
+
+```text
+matches a repeated recent emotional pattern
+```
+
+and may change the recommendation ranking.
+
+---
+
+# ▶️ Running the System
+
+## Install Dependencies
+
+```bash
+py -m pip install -r requirements.txt
+```
+
+---
+
+## Run Baseline Tests
+
+```bash
+py test_ingestion.py
+py test_preprocessing.py
+py test_sentiment.py
+py test_report.py
+py test_pipeline.py
+py test_real_dataset.py
+```
+
+---
+
+## Run Emotion Analysis
+
+```bash
+python -m src.emotion_analyzer
+```
+
+---
+
+## Run Personalized Recommendations
+
+Use module execution from the project root:
+
+```bash
+python -m src.personalized_recommender
+```
+
+---
+
+## Run Recommendation Feedback
+
+```bash
+python src/recommendation_feedback.py
+```
+
+---
+
+## Run Wellness Trend Analysis
+
+```bash
+python -m src.wellness_trend_analyzer
+```
+
+---
+
+## Run Complete Wellness Pipeline
+
+From the project root:
+
+```bash
+python -m src.wellness_pipeline
+```
+
+Using `python -m` is recommended because the project uses the `src` package structure.
+
+---
+
+## Run Recommendation Evaluation
+
+```bash
+python -m src.evaluate_recommendations
+```
+
+Generated files:
+
+```text
+reports/recommendation_evaluation.json
+reports/TASK9_RECOMMENDATION_EVALUATION.md
+```
+
+---
+
+## Compile All Source Files
+
+```bash
+python -m compileall src
 ```
 
 ---
@@ -317,103 +764,88 @@ reports/milestone1_real_dataset_report.csv
 * **VADER Sentiment**
 * **PyMuPDF**
 * **python-docx**
-* **Scikit-learn** *(planned for future ML components)*
+* **Scikit-learn**
+* **PyTorch**
+* **Hugging Face Transformers**
+* **DistilBERT / BERT**
+* **GoEmotions**
 * **Git & GitHub**
 
 ---
 
-# 📦 Installation
+# 📋 Project Status
 
-Clone the repository:
+| Task    | Description                           | Status     |
+| ------- | ------------------------------------- | ---------- |
+| Task 1  | Text ingestion validation             | ✅ Complete |
+| Task 2  | Text preprocessing                    | ✅ Complete |
+| Task 3  | VADER sentiment validation            | ✅ Complete |
+| Task 4  | Sentiment reporting                   | ✅ Complete |
+| Task 5  | Pipeline integration                  | ✅ Complete |
+| Task 6  | Emotional trend & user state tracking | ✅ Complete |
+| Task 7  | Recommendation feedback learning      | ✅ Complete |
+| Task 8  | Recommendation explainability         | ✅ Complete |
+| Task 9  | Advanced recommendation evaluation    | ✅ Complete |
+| Task 10 | ML integration & cleanup              | ✅ Complete |
 
-```bash
-git clone <YOUR-GITHUB-REPOSITORY-URL>
-cd AI-Employee-Wellness
-```
-
-Install dependencies:
-
-```bash
-py -m pip install -r requirements.txt
-```
-
----
-
-# ▶️ Running the Tests
-
-### Test text ingestion
-
-```bash
-py test_ingestion.py
-```
-
-### Test preprocessing
-
-```bash
-py test_preprocessing.py
-```
-
-### Test VADER sentiment
-
-```bash
-py test_sentiment.py
-```
-
-### Test report generation
-
-```bash
-py test_report.py
-```
-
-### Test complete pipeline
-
-```bash
-py test_pipeline.py
-```
-
-### Test real dataset
-
-```bash
-py test_real_dataset.py
-```
+## **Tasks 1–10: COMPLETED ✅**
 
 ---
 
-# 📋 Milestone 1 Status
+# 📁 Important Generated Files
 
-| Component                   | Status     |
-| --------------------------- | ---------- |
-| Multi-format text ingestion | ✅ Complete |
-| Input validation            | ✅ Complete |
-| Text preprocessing          | ✅ Complete |
-| VADER baseline              | ✅ Complete |
-| Sentiment report            | ✅ Complete |
-| Pipeline integration        | ✅ Complete |
-| Real dataset validation     | ✅ Complete |
+### Recommendation feedback
 
-### **Milestone 1: COMPLETED ✅**
+```text
+data/processed/recommendation_feedback.json
+```
+
+### Recommendation test cases
+
+```text
+data/processed/recommendation_test_cases.json
+```
+
+### Task 9 evaluation
+
+```text
+reports/TASK9_RECOMMENDATION_EVALUATION.md
+reports/recommendation_evaluation.json
+```
 
 ---
 
 # 🔮 Future Development
 
-The current milestone establishes the baseline sentiment-analysis pipeline.
+Potential future improvements include:
 
-Future development will extend the platform toward:
-
-* ML-based emotion classification
-* Employee emotion detection
-* Stress and wellness pattern analysis
-* Personalized wellness recommendations
-* Employee wellness dashboards
-* Trend analysis over time
-* Model evaluation and improvement
-* Integration of additional employee feedback sources
+* Larger real-world recommendation datasets
+* More extensive user feedback collection
+* A/B testing of recommendation strategies
+* More advanced semantic content matching
+* Personalized wellness dashboards
+* API endpoints for recommendation feedback
+* Database-backed employee wellness history
+* Model fine-tuning on domain-specific wellness data
+* More comprehensive recommendation diversity metrics
+* Automated regression testing
+* Production monitoring and model performance tracking
 
 ---
 
 # ⚠️ Data Privacy
 
-Employee feedback can contain sensitive information. Any deployment using real employee data should implement appropriate privacy, access-control, anonymization, and data-protection measures.
+Employee feedback can contain sensitive information. Any deployment using real employee data should implement appropriate:
 
-The repository should not contain confidential employee information, credentials, API keys, or other private data.
+* Privacy controls
+* Access control
+* Data anonymization
+* Encryption
+* Secure storage
+* Authentication
+* Authorization
+* Data-retention policies
+
+The repository should not contain confidential employee information, credentials, API keys, passwords, or other private data.
+
+Generated feedback and evaluation data should also be reviewed before committing to a public repository.
