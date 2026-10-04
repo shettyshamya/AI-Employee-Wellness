@@ -20,3 +20,5 @@ models/*.joblib
 
 reports/*.csv
 data/processed/recommendation_feedback.json
+
+data/processed/recommendation_feedback.json
