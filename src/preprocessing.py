@@ -1,10 +1,16 @@
 import re
+import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 
 
-# Load NLP resources
+# Load required NLP resources
+try:
+    nltk.data.find("corpora/stopwords")
+except LookupError:
+    nltk.download("stopwords", quiet=True)
+
 STOP_WORDS = set(stopwords.words("english"))
 
 # Preserve negation words because they can change emotional meaning
