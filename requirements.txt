@@ -1,5 +1,12 @@
-pandas
+datasets
 nltk
-vaderSentiment
+numpy
+pandas
 PyMuPDF
 python-docx
+reportlab
+scikit-learn
+streamlit
+torch
+transformers
+vaderSentiment
