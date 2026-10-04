@@ -66,9 +66,11 @@ class RecommendationFeedback:
         accepted=None,
         rating=None,
         preference_changes=None,
+        recommendation_category=None,
     ):
         feedback = {
             "recommendation_id": recommendation_id,
+            "recommendation_category": recommendation_category,
             "viewed": bool(viewed),
             "accepted": accepted,
             "rating": rating,

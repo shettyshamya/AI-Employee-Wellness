@@ -25,7 +25,14 @@ NEGATIVE_EMOTIONS = {
     "disgust",
 }
 
-MODEL_DIR = Path("models/bert")
+import os
+
+
+MODEL_DIR = Path(
+    os.getenv("WELLNESS_MODEL_DIR", "models/bert")
+)
+MODEL_REPO_ID = os.getenv("WELLNESS_MODEL_REPO")
+
 THRESHOLD = 0.2
 
 # Simple text cues for the intensity heuristic
@@ -39,23 +46,26 @@ MITIGATORS = {
     "a bit", "kind of", "sort of",
 }
 
-
 class EmotionAnalyzer:
     def __init__(self, model_dir=MODEL_DIR):
-        self.model_dir = Path(model_dir)
+        self.model_source = (
+            MODEL_REPO_ID
+            if MODEL_REPO_ID
+            else Path(model_dir)
+        )
 
-        if not self.model_dir.exists():
+        if not MODEL_REPO_ID and not self.model_source.exists():
             raise FileNotFoundError(
-                f"Model folder not found: {self.model_dir}"
+                f"Model folder not found: {self.model_source}"
             )
 
         self.tokenizer = AutoTokenizer.from_pretrained(
-            self.model_dir
+            self.model_source
         )
 
         self.model = (
             AutoModelForSequenceClassification.from_pretrained(
-                self.model_dir
+                self.model_source
             )
         )
 
@@ -182,7 +192,7 @@ class EmotionAnalyzer:
                 text, emotion_scores
             )
         )
-        7# Calculate modifier-adjusted negative emotion intensity
+        # Calculate modifier-adjusted negative emotion intensity
         modifier = intensity_details["modifier"]
 
         negative_intensity = round(

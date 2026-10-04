@@ -24,7 +24,7 @@ Controlled feedback is used only to verify that the advanced ranking responds to
 | F1@3 | 0.767 | 0.767 |
 | NDCG@3 | 0.894 | 0.906 |
 | Diversity@3 | 1.000 | 1.000 |
-| Response time (ms) | 0.007 | 0.040 |
+| Response time (ms) | 0.004 | 0.023 |
 
 ## Feedback results
 
@@ -36,7 +36,7 @@ Controlled feedback is used only to verify that the advanced ranking responds to
 
 ### case_01 — High fear intensity
 
-- Expected relevant: mindfulness_01, short_break_01, breathing_01
+- Expected relevant: short_break_01, breathing_01, mindfulness_01
 - Controlled feedback interactions: 2
 - Controlled acceptance rate: 0.5
 - Controlled average rating: 3.500
@@ -55,7 +55,7 @@ Controlled feedback is used only to verify that the advanced ranking responds to
 
 ### case_02 — High anger intensity
 
-- Expected relevant: mindfulness_01, short_break_01, breathing_01
+- Expected relevant: short_break_01, breathing_01, mindfulness_01
 - Controlled feedback interactions: 0
 - Controlled acceptance rate: None
 - Controlled average rating: 0.000
@@ -74,7 +74,7 @@ Controlled feedback is used only to verify that the advanced ranking responds to
 
 ### case_03 — High sadness intensity
 
-- Expected relevant: mindfulness_01, reflection_01, breathing_01
+- Expected relevant: breathing_01, reflection_01, mindfulness_01
 - Controlled feedback interactions: 0
 - Controlled acceptance rate: None
 - Controlled average rating: 0.000
@@ -112,7 +112,7 @@ Controlled feedback is used only to verify that the advanced ranking responds to
 
 ### case_05 — Repeated fear pattern
 
-- Expected relevant: reflection_01, short_break_01, breathing_01
+- Expected relevant: short_break_01, breathing_01, reflection_01
 - Controlled feedback interactions: 0
 - Controlled acceptance rate: None
 - Controlled average rating: 0.000

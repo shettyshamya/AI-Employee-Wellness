@@ -1,5 +1,4 @@
 # Trained model checkpoints
-models/
 __pycache__/
 *.pyc
 
@@ -21,4 +20,8 @@ models/*.joblib
 reports/*.csv
 data/processed/recommendation_feedback.json
 
-data/processed/recommendation_feedback.json
+
+
+ai_employee_wellness.egg-info/
+models/distilbert/
+models/*/checkpoint-*/

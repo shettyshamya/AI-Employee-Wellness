@@ -43,8 +43,8 @@ def read_txt_file(file_path):
 
         return text.strip(), "TXT file successfully read."
 
-    except Exception as e:
-        return None, f"Error reading TXT file: {e}"
+    except Exception:
+        return None, "Unable to read TXT file."
 
 
 def read_csv_file(file_path, text_column=None):
@@ -71,8 +71,8 @@ def read_csv_file(file_path, text_column=None):
 
         return texts, "CSV file successfully read."
 
-    except Exception as e:
-        return None, f"Error reading CSV file: {e}"
+    except Exception:
+        return None, "Unable to read CSV file."
 
 
 def read_pdf_file(file_path):
@@ -95,8 +95,8 @@ def read_pdf_file(file_path):
 
         return text.strip(), "PDF file successfully read."
 
-    except Exception as e:
-        return None, f"Error reading PDF file: {e}"
+    except Exception:
+        return None, "Unable to read PDF file."
 
 
 def read_docx_file(file_path):
@@ -120,5 +120,5 @@ def read_docx_file(file_path):
 
         return text, "Word document successfully read."
 
-    except Exception as e:
-        return None, f"Error reading DOCX file: {e}"
+    except Exception:
+        return None, "Unable to read Word document."

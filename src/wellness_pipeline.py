@@ -1,3 +1,13 @@
+import argparse
+from pathlib import Path
+
+from src.ingestion import (
+    read_txt_file,
+    read_csv_file,
+    read_pdf_file,
+    read_docx_file,
+)
+from datetime import datetime, timezone
 try:
     from src.emotion_analyzer import EmotionAnalyzer
     from src.personalized_recommender import PersonalizedRecommender
@@ -20,6 +30,11 @@ class WellnessPipeline:
     def process_message(self, message):
         # Step 1: Analyze the employee's emotion
         emotional_state = self.emotion_analyzer.analyze(message)
+
+        # Add a real timestamp for emotional trend analysis
+        emotional_state["timestamp"] = datetime.now(
+            timezone.utc
+        ).isoformat()
 
         # Step 2: Update emotional trend history
         self.trend_analyzer.add_emotional_state(
@@ -45,7 +60,110 @@ class WellnessPipeline:
         return result
 
 
-if __name__ == "__main__":
+def print_pipeline_result(result):
+    """Print a privacy-safe wellness analysis result."""
+
+    print("\n" + "=" * 60)
+    print("EMPLOYEE MESSAGE RECEIVED")
+    print("=" * 60)
+
+    print("\nEMOTIONAL ANALYSIS")
+    print(f"Dominant emotion: {result['current_emotion']}")
+    print(f"Detected emotions: {result['detected_emotions']}")
+    print(f"Intensity: {result['emotional_intensity']}")
+    print(
+        f"Negative intensity: "
+        f"{result['negative_emotion_intensity']}"
+    )
+    print(f"Polarity: {result['polarity']}")
+    print(f"Severity: {result['severity']}")
+
+    print("\nRECOMMENDATIONS")
+
+    for recommendation in result["recommendations"]:
+        print(
+            f"- {recommendation['title']} "
+            f"(score: {recommendation['score']})"
+        )
+        print(
+            f"  Reasons: {recommendation.get('reasons', [])}"
+        )
+
+    print("\nWELLNESS TREND SUMMARY")
+    print(
+        f"Total records: "
+        f"{result['trend_summary']['total_emotional_records']}"
+    )
+    print(
+        f"Emotion frequency: "
+        f"{result['trend_summary']['emotion_frequency']}"
+    )
+    print(
+        f"Average intensity: "
+        f"{result['trend_summary']['average_emotional_intensity']}"
+    )
+    print(
+        f"Average negative intensity: "
+        f"{result['trend_summary']['average_negative_emotion_intensity']}"
+    )
+    print(
+        f"Polarity distribution: "
+        f"{result['trend_summary']['polarity_distribution']}"
+    )
+    print(
+        f"Severity distribution: "
+        f"{result['trend_summary']['severity_distribution']}"
+    )
+
+def read_cli_input(file_path):
+    """Read supported wellness feedback file types."""
+
+    path = Path(file_path)
+
+    if not path.exists():
+        return None, "Input file could not be found."
+
+    suffix = path.suffix.lower()
+
+    readers = {
+        ".txt": read_txt_file,
+        ".csv": read_csv_file,
+        ".pdf": read_pdf_file,
+        ".docx": read_docx_file,
+    }
+
+    reader = readers.get(suffix)
+
+    if reader is None:
+        return (
+            None,
+            "Unsupported file type. "
+            "Use TXT, CSV, PDF, or DOCX.",
+        )
+
+    return reader(str(path))
+
+def main():
+
+    parser = argparse.ArgumentParser(
+        description="AI Employee Wellness Analysis"
+    )
+
+    input_group = parser.add_mutually_exclusive_group()
+
+    input_group.add_argument(
+        "--message",
+        type=str,
+        help="Analyze a single wellness message.",
+    )
+
+    input_group.add_argument(
+        "--input",
+        type=str,
+        help="Analyze wellness feedback from a TXT, CSV, PDF, or DOCX file.",
+    )
+
+    args = parser.parse_args()
 
     pipeline = WellnessPipeline(
         user_preferences={
@@ -57,68 +175,55 @@ if __name__ == "__main__":
         }
     )
 
-    test_messages = [
-        "I am extremely worried about my deadlines.",
-        "I am angry about the amount of work I have.",
-        "I feel happy about the progress I made today.",
-        "I feel sad because my work has been difficult lately.",
-        "I am slightly worried about tomorrow's meeting.",
-    ]
+    if args.message:
 
-    for message in test_messages:
-
-        result = pipeline.process_message(message)
-
-        print("\n" + "=" * 60)
-        print("EMPLOYEE MESSAGE")
-        print("=" * 60)
-
-        print(message)
-
-        print("\nEMOTIONAL ANALYSIS")
-        print(f"Dominant emotion: {result['current_emotion']}")
-        print(f"Detected emotions: {result['detected_emotions']}")
-        print(f"Intensity: {result['emotional_intensity']}")
-        print(
-            f"Negative intensity: "
-            f"{result['negative_emotion_intensity']}"
+        result = pipeline.process_message(
+            args.message.strip()
         )
-        print(f"Polarity: {result['polarity']}")
-        print(f"Severity: {result['severity']}")
 
-        print("\nRECOMMENDATIONS")
+        print_pipeline_result(result)
 
-        for recommendation in result["recommendations"]:
-            print(
-                f"- {recommendation['title']} "
-                f"(score: {recommendation['score']})"
-            )
-            print(
-                f"  Reasons: {recommendation.get('reasons', [])}"
+    elif args.input:
+
+        input_data, status = read_cli_input(args.input)
+
+        if input_data is None:
+            print(f"Error: {status}")
+            raise SystemExit(1)
+
+        if isinstance(input_data, list):
+
+            for message in input_data:
+
+                result = pipeline.process_message(
+                    message
+                )
+
+                print_pipeline_result(result)
+
+        else:
+
+            result = pipeline.process_message(
+                input_data
             )
 
-        print("\nWELLNESS TREND SUMMARY")
-        print(
-            f"Total records: "
-            f"{result['trend_summary']['total_emotional_records']}"
-        )
-        print(
-            f"Emotion frequency: "
-            f"{result['trend_summary']['emotion_frequency']}"
-        )
-        print(
-            f"Average intensity: "
-            f"{result['trend_summary']['average_emotional_intensity']}"
-        )
-        print(
-            f"Average negative intensity: "
-            f"{result['trend_summary']['average_negative_emotion_intensity']}"
-        )
-        print(
-            f"Polarity distribution: "
-            f"{result['trend_summary']['polarity_distribution']}"
-        )
-        print(
-            f"Severity distribution: "
-            f"{result['trend_summary']['severity_distribution']}"
-        )
+            print_pipeline_result(result)
+
+    else:
+
+        test_messages = [
+            "I am extremely worried about my deadlines.",
+            "I am angry about the amount of work I have.",
+            "I feel happy about the progress I made today.",
+            "I feel sad because my work has been difficult lately.",
+            "I am slightly worried about tomorrow's meeting.",
+        ]
+
+        for message in test_messages:
+
+            result = pipeline.process_message(message)
+
+            print_pipeline_result(result)
+
+if __name__ == "__main__":
+    main()

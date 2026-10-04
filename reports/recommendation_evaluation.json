@@ -9,7 +9,7 @@
       "f1_at_k": 0.7666666666666666,
       "ndcg_at_k": 0.8938557452045514,
       "diversity_at_k": 1.0,
-      "response_time_ms": 0.007239915430545807
+      "response_time_ms": 0.003519980236887932
     },
     "advanced": {
       "precision_at_k": 0.7333333333333333,
@@ -17,7 +17,7 @@
       "f1_at_k": 0.7666666666666666,
       "ndcg_at_k": 0.9061442547954487,
       "diversity_at_k": 1.0,
-      "response_time_ms": 0.039559975266456604
+      "response_time_ms": 0.023379968479275703
     },
     "feedback": {
       "cases_with_feedback": 1,
@@ -30,9 +30,9 @@
       "case_id": "case_01",
       "description": "High fear intensity",
       "expected_relevant": [
-        "mindfulness_01",
         "short_break_01",
-        "breathing_01"
+        "breathing_01",
+        "mindfulness_01"
       ],
       "feedback": {
         "interaction_count": 2,
@@ -50,7 +50,7 @@
         "f1_at_k": 1.0,
         "ndcg_at_k": 1.0,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.019499799236655235
+        "response_time_ms": 0.008699949830770493
       },
       "advanced": {
         "recommendations": [
@@ -91,16 +91,16 @@
         "f1_at_k": 1.0,
         "ndcg_at_k": 1.0,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.07099984213709831
+        "response_time_ms": 0.05410006269812584
       }
     },
     {
       "case_id": "case_02",
       "description": "High anger intensity",
       "expected_relevant": [
-        "mindfulness_01",
         "short_break_01",
-        "breathing_01"
+        "breathing_01",
+        "mindfulness_01"
       ],
       "feedback": {
         "interaction_count": 0,
@@ -118,7 +118,7 @@
         "f1_at_k": 1.0,
         "ndcg_at_k": 1.0,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.0032999087125062943
+        "response_time_ms": 0.00300002284348011
       },
       "advanced": {
         "recommendations": [
@@ -155,16 +155,16 @@
         "f1_at_k": 1.0,
         "ndcg_at_k": 1.0,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.021900050342082977
+        "response_time_ms": 0.016900012269616127
       }
     },
     {
       "case_id": "case_03",
       "description": "High sadness intensity",
       "expected_relevant": [
-        "mindfulness_01",
+        "breathing_01",
         "reflection_01",
-        "breathing_01"
+        "mindfulness_01"
       ],
       "feedback": {
         "interaction_count": 0,
@@ -182,7 +182,7 @@
         "f1_at_k": 0.6666666666666666,
         "ndcg_at_k": 0.7653606369886217,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.0025997869670391083
+        "response_time_ms": 0.002299901098012924
       },
       "advanced": {
         "recommendations": [
@@ -219,7 +219,7 @@
         "f1_at_k": 0.6666666666666666,
         "ndcg_at_k": 0.7653606369886217,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.04460010677576065
+        "response_time_ms": 0.015099998563528061
       }
     },
     {
@@ -244,7 +244,7 @@
         "f1_at_k": 0.5,
         "ndcg_at_k": 1.0,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.004600035026669502
+        "response_time_ms": 0.001800013706088066
       },
       "advanced": {
         "recommendations": [
@@ -278,16 +278,16 @@
         "f1_at_k": 0.5,
         "ndcg_at_k": 1.0,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.038899946957826614
+        "response_time_ms": 0.014199875295162201
       }
     },
     {
       "case_id": "case_05",
       "description": "Repeated fear pattern",
       "expected_relevant": [
-        "reflection_01",
         "short_break_01",
-        "breathing_01"
+        "breathing_01",
+        "reflection_01"
       ],
       "feedback": {
         "interaction_count": 0,
@@ -305,7 +305,7 @@
         "f1_at_k": 0.6666666666666666,
         "ndcg_at_k": 0.7039180890341347,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.006200047209858894
+        "response_time_ms": 0.001800013706088066
       },
       "advanced": {
         "recommendations": [
@@ -345,7 +345,7 @@
         "f1_at_k": 0.6666666666666666,
         "ndcg_at_k": 0.7653606369886217,
         "diversity_at_k": 1.0,
-        "response_time_ms": 0.021399930119514465
+        "response_time_ms": 0.01659989356994629
       }
     }
   ]

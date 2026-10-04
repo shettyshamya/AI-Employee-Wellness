@@ -1,170 +1,171 @@
-from src.ingestion import read_text_input
+from pathlib import Path
 
-
-# Test 1: Positive employee feedback
-text, message = read_text_input(
-    "I really enjoy my work and feel happy with my team 😊"
+from src.ingestion import (
+    read_text_input,
+    read_txt_file,
+    read_csv_file,
+    read_pdf_file,
+    read_docx_file,
 )
 
-print("Test 1:")
-print(message)
-print("Text:", text)
-print()
+
+def test_positive_employee_feedback():
+    text, message = read_text_input(
+        "I really enjoy my work and feel happy with my team 😊"
+    )
+
+    assert text is not None
+    assert text.strip() != ""
+    assert message is not None
 
 
-# Test 2: Negative employee feedback
-text, message = read_text_input(
-    "I am feeling very stressed because of my workload 😔"
-)
+def test_negative_employee_feedback():
+    text, message = read_text_input(
+        "I am feeling very stressed because of my workload 😔"
+    )
 
-print("Test 2:")
-print(message)
-print("Text:", text)
-print()
-
-
-# Test 3: Neutral employee feedback
-text, message = read_text_input(
-    "I attended the employee meeting today."
-)
-
-print("Test 3:")
-print(message)
-print("Text:", text)
-print()
+    assert text is not None
+    assert text.strip() != ""
+    assert message is not None
 
 
-# Test 4: Empty input
-text, message = read_text_input("")
+def test_neutral_employee_feedback():
+    text, message = read_text_input(
+        "I attended the employee meeting today."
+    )
 
-print("Test 4:")
-print(message)
-print("Text:", text)
+    assert text is not None
+    assert text.strip() != ""
+    assert message is not None
 
-from src.ingestion import read_txt_file
 
-print("Test 5: TXT File")
+def test_empty_input():
+    text, message = read_text_input("")
 
-text, message = read_txt_file(
-    "data/raw/employee_feedback.txt"
-)
+    assert text is None or text == ""
+    assert message is not None
 
-print(message)
-print("Text:", text)
 
-from src.ingestion import read_csv_file
+def test_whitespace_only_input():
+    text, message = read_text_input("     ")
 
-print("\nTest 6: CSV File")
+    assert text is None or text == ""
+    assert message is not None
 
-texts, message = read_csv_file(
-    "data/raw/employee_feedback.csv",
-    text_column="feedback"
-)
 
-print(message)
+def test_very_short_input():
+    text, message = read_text_input("Good")
 
-if texts:
-    for i, text in enumerate(texts, start=1):
-        print(f"Employee {i}: {text}")
+    assert text is not None
+    assert text.strip() != ""
+    assert message is not None
 
-        from src.ingestion import read_pdf_file
 
-print("\nTest 7: PDF File")
+def test_special_characters_and_emojis():
+    text, message = read_text_input(
+        "I am VERY happy!!! 😊🎉 #great @team"
+    )
 
-text, message = read_pdf_file(
-    "data/raw/employee_feedback.pdf"
-)
+    assert text is not None
+    assert text.strip() != ""
+    assert message is not None
 
-print(message)
-print("Extracted Text:")
-print(text)
 
-from src.ingestion import read_docx_file
+def test_txt_file():
+    file_path = Path(
+        "data/raw/employee_feedback.txt"
+    )
 
-print("\nTest 8: DOCX File")
+    if not file_path.exists():
+        return
 
-text, message = read_docx_file(
-    "data/raw/employee_feedback.docx"
-)
+    text, message = read_txt_file(
+        str(file_path)
+    )
 
-print(message)
-print("Extracted Text:")
-print(text)
+    assert message is not None
+    assert text is not None
 
-print("\nTest 9: Whitespace-only Input")
 
-text, message = read_text_input("     ")
+def test_csv_file():
+    file_path = Path(
+        "data/raw/employee_feedback.csv"
+    )
 
-print(message)
-print("Text:", text)
+    if not file_path.exists():
+        return
 
-print("\nTest 10: Very Short Input")
+    texts, message = read_csv_file(
+        str(file_path),
+        text_column="feedback",
+    )
 
-text, message = read_text_input("Good")
+    assert message is not None
+    assert texts is not None
 
-print(message)
-print("Text:", text)
 
-print("\nTest 11: Special Characters and Emojis")
+def test_empty_txt_file():
+    file_path = Path(
+        "data/raw/employee_empty.txt"
+    )
 
-text, message = read_text_input(
-    "I am VERY happy!!! 😊🎉 #great @team"
-)
+    if not file_path.exists():
+        return
 
-print(message)
-print("Text:", text)
+    text, message = read_txt_file(
+        str(file_path)
+    )
 
-from src.ingestion import read_txt_file
+    assert message is not None
 
-print("\nTest 12: Empty TXT File")
 
-text, message = read_txt_file(
-    "data/raw/employee_empty.txt"
-)
+def test_empty_csv_file():
+    file_path = Path(
+        "data/raw/employee_empty.csv"
+    )
 
-print(message)
-print("Text:", text)
+    if not file_path.exists():
+        return
 
-from src.ingestion import read_txt_file
+    texts, message = read_csv_file(
+        str(file_path),
+        text_column="feedback",
+    )
 
-print("\nTest 12: Empty TXT File")
+    assert message is not None
 
-text, message = read_txt_file(
-    "data/raw/employee_empty.txt"
-)
 
-print(message)
-print("Text:", text)
+def test_csv_missing_feedback_column():
+    file_path = Path(
+        "data/raw/employee_invalid.csv"
+    )
 
-print("\nTest 13: Empty CSV File")
+    if not file_path.exists():
+        return
 
-texts, message = read_csv_file(
-    "data/raw/employee_empty.csv",
-    text_column="feedback"
-)
+    texts, message = read_csv_file(
+        str(file_path),
+        text_column="feedback",
+    )
 
-print(message)
-print("Texts:", texts)
+    assert message is not None
 
-print("\nTest 14: CSV Missing Feedback Column")
-texts, message = read_csv_file(
-    "data/raw/employee_invalid.csv",
-    text_column="feedback"
-)
 
-print(message)
-print("Texts:", texts)
+def test_unsupported_file_type():
+    file_path = Path(
+        "data/raw/employee_feedback.jpg"
+    )
 
-print("\nTest 15: Unsupported File Type")
+    assert file_path.suffix.lower() == ".jpg"
 
-file_path = "data/raw/employee_feedback.jpg"
+    supported_extensions = [
+        ".txt",
+        ".csv",
+        ".pdf",
+        ".docx",
+    ]
 
-supported_extensions = [".txt", ".csv", ".pdf", ".docx"]
-
-import os
-
-extension = os.path.splitext(file_path)[1].lower()
-
-if extension not in supported_extensions:
-    print("Unsupported file type.")
-    print("Text: None")
+    assert (
+        file_path.suffix.lower()
+        not in supported_extensions
+    )
